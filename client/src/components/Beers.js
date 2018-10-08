@@ -19,12 +19,26 @@ class Beers extends React.Component{
   componentDidMount() {
     axios({
       method: 'get',
-      url: 'api/all_beers?page=20&per_page=5',
+      url: 'api/all_beers?page=1&per_page=10',
       responseType: 'json',
     })
       .then( res => {
         this.setState({
           beers: res.data
+        })
+      })
+  }
+
+  loadFunc = () => {
+    axios({
+      method: 'get',
+      url: 'api/all_beers',
+      responseType: 'json'
+    })
+      .then( res => {
+        debugger
+        this.setState({
+          breweries: res.data
         })
       })
   }
@@ -52,9 +66,10 @@ class Beers extends React.Component{
   render() {
     return (
       <Container>
+        <Header as="h1" textAlign="center">Beers</Header>
         <InfiniteScroll
           pageStart={0}
-          loadMore={loadFunc}
+          loadMore={this.loadFunc()}
           hasMore={true || false}
           loader={<div className="loader" key={0}>Loading ...</div>}
         >

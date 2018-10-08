@@ -29,6 +29,20 @@ class Breweries extends React.Component{
       })
   }
 
+  loadFunc = () => {
+    axios({
+      method: 'get',
+      url: 'api/all_breweries?page=20&per_page=5',
+      responseType: 'json'
+    })
+      .then( res => {
+        debugger
+        this.setState({
+          breweries: res.data
+        })
+      })
+  }
+
   breweryCard = () => {
     const { breweries } = this.state
     if (breweries.entries[0] === undefined)
@@ -54,7 +68,7 @@ class Breweries extends React.Component{
       <Container>
         <InfiniteScroll
           pageStart={0}
-          loadMore={loadFunc}
+          loadMore={this.loadFunc()}
           hasMore={true || false}
           loader={<div className="loader" key={0}>Loading ...</div>}
         >
